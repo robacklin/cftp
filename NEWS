@@ -1,0 +1,60 @@
+New in 0.13:
+
+* recognize sftp urls
+* new option -i (--get-tags): download tags from file on startup
+
+New in 0.12:
+
+* preliminary support for sftp (requires ssh protocol version 2)
+* print estimated remaining time for down- and uploads
+
+New in 0.11.2:
+
+* new command: rmdir
+* don't default to sending user name as anonymous password
+* fix error detection in up/downloads
+
+New in 0.11.1:
+
+* fix compile problem on Red Hat 7.1
+
+New in 0.11:
+* display transfer rates
+* detect stalled connections and abort after stall-timeout seconds
+* fix ASCII mode uploads
+* if initial url is file, download before listing directory
+* display progress while reading directories
+* write proper URLs (encoding special chars, include user and port)
+* only ask for password if server wants one
+* various bug fixes
+
+New in 0.10:
+* support for IPv6
+* various bug fixes
+
+New in 0.9.3:
+* downloads: if size is unknown, use size from server response
+* mkdir: make directory on server (not really new, but I forgot to mention it)
+* site: send site specific commands
+* removed option emacs-status (which has been ignored anyway)
+* fixed bug with status lines on small terminals (less than 25 columns)
+
+New in 0.9.2:
+* reload: reload correct directory
+* show-name: new option -l: show symlink target
+* handle symlinks on servers which report size as 0 (e.g. Windows)
+* if directory given on command line is file, download it
+
+New in 0.9.1:
+* passive mode
+
+New in 0.9:
+* wildcard tagging/untagging (tag -t, tag -u)
+* wrap option to control wrap around of scrolling
+* support for servers with dos directory names
+* reload current directory
+
+New in 0.8:
+* put command
+* sorted directory listings (none/name/date)
+* help can display list of functions, key bindings, and options

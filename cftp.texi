@@ -1,0 +1,261 @@
+\input texinfo	@c -*-texinfo-*-
+@c %**start of header
+@setfilename cftp.info
+@settitle cftp
+@setchapternewpage odd
+@c %**end of header
+@c @synindex tp vr
+
+@include version.texi
+
+@ifinfo
+@format
+START-INFO-DIR-ENTRY
+* cftp: (cftp).             Comfortable FTP.
+END-INFO-DIR-ENTRY
+@end format
+@end ifinfo
+
+@ifinfo
+This file documents cftp @value{VERSION}
+
+Copyright 1996-2002 Dieter Baron, Thomas Klausner
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+
+
+@end ignore
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation
+approved by the Free Software Foundation.
+@end ifinfo
+
+
+@titlepage
+@title @sc{cftp} -- Comfortable FTP
+@subtitle For version @value{VERSION}, @value{UPDATED}
+@author Dieter Baron
+@author Thomas Klausner
+@c copyright page
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 1996-2002 Dieter Baron, Thomas Klausner
+@sp 2
+This is a draft edition of the @sc{cftp} documentation,@*
+and is consistent with @sc{cftp} @value{VERSION}.@*
+@sp 2
+@ignore
+Published by the Free Software Foundation @*
+59 Template Place - Suite 330, @*
+Boston, MA 02111-1307 USA @*
+
+@end ignore
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation
+approved by the Free Software Foundation.
+@end titlepage
+
+@ifinfo
+@c ****************************************************************
+@node Top, , ,(dir)
+@top cftp
+
+This file documents @sc{cftp}, a fullscreen ftp client running on
+ASCII-terminals or terminal emulations (like xterm).  This edition
+documents version @value{VERSION}.
+
+@menu
+* Introduction::        An introduction to @sc{cftp}
+* Invoking cftp::       How to start @sc{cftp}
+* Navigating::          Navigating the remote directory tree
+* Customizability::     How to customize and configure @sc{cftp}
+* Functions::           Description of all bindable functions
+* Options::             User setable options
+* Index::               Listing of all keywords
+@end menu
+@end ifinfo
+
+
+@c ********************************************************************
+@node Introduction
+@chapter Introduction
+@cindex Introduction
+
+@sc{cftp} is used to transfer files from one computer to another via the
+FTP protocol.  It's advantages over most standard ftp clients is its
+fullscreen representation of the remote directory tree, providing a
+compact overview of the remote server's contents.
+
+
+@c ****************************************************************
+@node Invoking cftp
+@chapter Invoking @sc{cftp}
+@cindex Invokation
+
+There are two ways to specify the destination:
+
+@itemize @bullet
+@item cftp [-u @var{user}] [-p @var{port}] @{@var{host}|@var{alias}@} @var{directory}
+@item cftp @var{url}
+@end itemize
+
+Where @var{url} has the form
+@example
+ftp://[@var{user}[@var{password}]@@]@var{host}[:@var{port}][/@var{dir}][/]
+@end example
+
+@c XXX das mach ich schon
+
+
+@c ********************************************************************
+@node Navigating
+@chapter Navigating the Remote Directory Tree
+@cindex Customizability
+
+@sc{cftp} understands the basic motion keys for both vi/less and GNU Emacs,
+as well as cursor keys.
+
+@multitable {cursor right  } {vi/less} {GNU Emacs} {command}
+@item cursor key         @tab vi/less   @tab GNU Emacs @tab command
+@item @kbd{cursor up}    @tab @kbd{k}   @tab @kbd{^p}  @tab @code{up}
+@item @kbd{cursor down}  @tab @kbd{j}   @tab @kbd{^n}  @tab @code{down}
+@item @kbd{cursor left}  @tab @kbd{h}   @tab @kbd{^b}  @tab @code{leave}
+@item @kbd{cursor right} @tab @kbd{l}   @tab @kbd{^f}  @tab @code{enter/get}
+@item @kbd{page up}      @tab @kbd{b}   @tab           @tab @code{page-up}
+@item @kbd{page down}    @tab @kbd{spc} @tab           @tab @code{page-down}
+@end multitable
+
+@c ********************************************************************
+@node Customizability
+@chapter Customizability
+@cindex Customizability
+
+@menu
+* cftprc::             startup file for user-defined settings
+* netrc::              @sc{cftp}'s use of the .netrc file
+@end menu
+
+
+@c ====================================================================
+@node cftprc
+@section .cftprc
+@cindex .cftprc
+@cindex cftprc
+
+On startup @sc{cftp} reads the file @file{.cftprc} (in your home
+directory) if it exists.  It contains @sc{cftp} functions invocations
+(optionally with arguments), just as in the @code{bind} function.  Put
+@sc{cftp} commands in it you want to be executed every time @sc{cftp}
+starts.  Not all functions are allowed in @file{.cftprc}, however.
+
+@menu
+* alias::               Shortcuts for hosts and directories.
+* cftprc example::     
+@end menu
+
+@c XXX: include all allowed commands
+
+
+@c ----------------------------------------------------------------
+@node alias
+@subsection alias
+@cindex alias
+
+@itemize @bullet
+@item
+Synopsis: alias @var{short} @{@var{url} | @var{host} [@var{dir}]@}
+@end itemize
+
+
+
+@c ----------------------------------------------------------------
+@node cftprc example
+@subsection .cftp example
+
+Here is an example .cftprc file:
+
+@example
+alias cftp-dist ftp://ftp.giga.or.at/pub/nih/cftp
+set sort date
+bind p set beep toggle
+@end example
+
+@c ====================================================================
+@node netrc
+@section .netrc
+@cindex .netrc
+@cindex netrc
+
+In addition to its own config file @file{.cftprc}, see @ref{cftprc},
+@sc{cftp} scans your @file{.netrc} file for this information:
+
+@itemize @bullet
+@item @code{host} or @code{default} lines for @code{login} and
+@code{password}
+@item @code{macdef init} definition for @code{cd} commands (used as
+initial directory)
+@end itemize
+
+An entry for a specific host:
+
+@example
+machine @var{host} login @var{user} password @var{passwd}
+macdef init
+cd @var{startdir}
+
+@end example
+
+The default entry (used for all hosts not matched by a specific entry):
+
+@example
+default login @var{user} password @var{passwd}
+macdef init
+cd @var{startdir}
+
+@end example
+
+The @code{macdef init} must be terminated by a blank line.
+@code{password} and @code{macdef init} may be ommited.
+
+@include functions.texi
+
+
+@include options.texi
+
+
+@c *********************************************************************
+@node Index
+@unnumbered Index
+@cindex Index
+
+@printindex cp
+
+@summarycontents
+
+@contents
+
+@bye
+

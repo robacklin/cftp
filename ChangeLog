@@ -1,0 +1,843 @@
+2005-06-03  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* functions.h: include <unistd.h> for off_t definition
+
+	* configure.in: only link against -lsocket, -lnsl, and -lresolv if
+	necessary.
+	* configure.in: use AC_SEARCH_LIBS to find termcap (emulation)
+	library.
+
+2004-03-08  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* directory.h, fn_select.c, fn_tag.c, ftp.c, functions.h,
+	methods.mt, readdir.c, sftp.c, tag.c: use off_t to store file
+	size.
+
+2003-12-30  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (rftp_retr): consistent style when checking for non-NULL.
+
+	* sftp.c (sftp_retr): only use startp if > 0.  Initialize sizep.
+
+2003-12-21  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sftp.c: bump SFTP_DATA_LEN to 8192.
+
+2003-12-19  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (rftp_fclose): correct logic in checking response.
+
+	* fn_tag.c (fn_gettags): check whether tag is in current directory
+	without changing its name.
+
+2003-12-05  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c (main): new option to download tags from file on startup.
+
+2003-12-04  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* status.c (status_do): don't overwrite percentage in tag mode.
+
+2003-07-12  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sftp.c (sftp_close, _sftp_close): move part shared with signal
+	handler to own function.
+	(sftp_open): set up SIGCHLD handler.
+	(_sftp_sig_child): collect exit status when ssh dies.
+
+2003-05-19  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* display.c (disp_restat): don't truncate string if it is short
+	enough.
+
+2003-05-16  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in, INSTALL, install-sh, missing, mkinstalldirs:
+	update to autoconf 2.50 and automake 1.7.
+	* configure.in: check for vasprintf.
+	* snprintf.c: add vasprintf replacement.
+
+	* display.c (disp_status, disp_restat): avoid fixed-size buffer.
+
+2003-05-13  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (_ftp_update_transfer): add missing argument to
+	disp_status call.
+	
+	* ftp.c (ftp_reconnect): _ftp_port and _ftp_user may well be NULL.
+
+	* util.c (noalloc_basename): move basename replacement function
+	here and rename; adapt callers.
+	* basename.c: remove.
+	* configure.in: remove test for basename(3).
+
+2003-04-16  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* mkbind.c (main): fix typo resulting in undersized buffer.
+	Reported by Anil Madhavapeddy.
+
+2003-04-08  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* list.c (list_desel, list_sel): bounds check line to be
+	(de)selected.  This is (neccessarily) out of bounds for empty
+	list.
+
+2003-01-29  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (_ftp_update_transfer): don't estimate time of completion
+	if size is unknown; if we got more bytes than the reported size,
+	discard size (it's obviously incorrect).
+
+2002-12-10  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* url.c: include config.h to get USE_SFTP definition.
+
+2002-10-23  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* readdir.c: include readdir.h for prototypes.
+	* loop.c: include loop.h for prototypes.
+	* fn_basic.c, fn_bind.c, fn_scroll.c, fn_select.c, fn_tag.c:
+	include fntable.h for bindable function prototypes.
+
+	* ftp.c (rftp_cwd): remove unused variable.
+
+2002-10-10  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c (main): print history if ftp_open() failes.
+
+	* ftp.c (rftp_open, rftp_fclose, ftp_abort): allow responses
+	specified in RFC.
+
+2002-09-27  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (rftp_list, rftp_retr): allow response 125 (as per RFC).
+
+	* list.c (list_init): initialize list.
+	(list_do): just return if list is NULL.
+
+2002-09-17  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: step version number to 0.12.
+
+	* util.c (xdirname): rename and adapt callers, declare argument
+	const.
+
+	* display.h, functions.h (struct function), list.c: fix missing
+	prototype warnings from IRIX cc.
+
+	* mkbind.c: remove definition of global defined in functions.c.
+
+2002-09-15  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* basename.c (basename): remove unused static variable.
+
+	* mkfntab-c.m4: don't output empty line at beginning of functions
+	array.
+
+	* mkbind.c (initnames): fix line number counting.
+
+	* sftp.c (_sftp_put_uint32, _sftp_put_uint64, _sftp_writev,
+	sftp_read, sftp_xfer_read), tty.c (tty_init), url.c (url_decode):
+	fix OSF/1 c89 warnings.
+
+2002-09-05  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (_ftp_update_transfer): print estimated remaining time to
+	completion.
+
+2002-03-12  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_gets): copy new portion to correct position in line
+	(not past the end).
+
+2002-02-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_select.c (fn_enter_get, fn_enter_view, fn_enter, fn_reload,
+	fn_get, fn_view, fn_pipe): if current directory is empty and no
+	file name is specified, do nothing (instead of using nonexistent
+	current entry.)
+
+2002-01-07  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sftp.c (_sftp_log_packet): enlarge buf, use strcpy instead of
+	strcat.
+
+2001-12-23  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sftp.c (_sftp_log_packet): use sprintf-like format strings.
+	(_sftp_log_pflags) new function.
+	
+	* mkfntab-c.m4, mkfntab-h.m4, mkfntexi.m4, fntable.fn,
+	mkoptab-c.m4, mkoptab-h.m4, mkoptexi.m4, options.op: include rcs
+	ids in included files.
+	
+	* status.c (opt_set_status): remove unused function.
+
+	* sftp.c (_sftp_read_dir): free strings if skipping entry.
+
+	* mkbind.c (disp_status): honour DISP_STDERR.
+
+	* sftp.c (sftp_xfer_read, sftp_xfer_stop): fix typo.
+	
+	* sftp.c: remove unused variables.
+	* ftp.c (ftp_cat, rftp_xfer_start): remove unused variables.
+
+	* main.c: ifdef USE_SFTP sftp options handling and usage.
+
+	* ftp.c (rftp_xfer_read): select fileno(f) for reading.
+
+2001-12-20  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* util.c (set_file_blocking): Return old blocking mode.
+
+	* ftp.c (_ftp_update_transfer): display time stalled in m:s when
+	more than 59 seconds.  Don't display total size if unknown.
+
+	* sftp.c (_sftp_start_ssh) send status packet in case of error.
+
+	* sftp.c: rewritten without stdio.
+	
+	* ftp.c: delete (now unused) function ftp_histf.
+
+	* sftp.c: rename SSH_FX_PROTO_VERSION to SFTP_PROTO_VERSION
+	
+	* sftp.c: supersede SFTP_FFL_READ and SFTP_FFL_WRITE with
+	SSH_FXF_READ and SSH_FXF_WRITE, respectively.
+
+2001-12-19  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* display.c (disp_status): add flags argument; adapt callers.
+
+2001-12-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* util.c (set_file_blocking): new function.
+
+	* Makefile.am: don't create files with output redirection
+	directly, use temporary files and mv.
+
+	* ftp.c: (ftp_cat): adapt to be usable with both protocols.
+	* ftp.c (rftp_xfer_start, rftp_xfer_stop, rftp_xfer_read,
+	rftp_xfer_write, rftp_xfer_eof): new method functions.
+	
+2001-12-13  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c: garbage collect code not ENABLE_TRANSFER_RATE.
+	
+	* fn_basic.c (fn_deidle), ftp.c (rftp_noop): rename method to
+	deidle.
+
+	* fn_select (aux_download, aux_pipe, aux_upload): adapt to
+	stor/retr method interface changes.
+
+	* ftp.c: declare all internal functions static.
+	* ftp.c (ftp_init, ftp_reconnect): make protocol independent.
+	* ftp.c (ftp_cat, rftp_fclose, rftp_retr, rftp_stor): change
+	server side files to void *.
+
+	* ftp.c (ftp_remember_host, ftp_remember_user): new functions.
+
+	* ftp.h: include methods.h, remove prototypes for methods.
+
+	* main.c (main): only reed .netrc if we're using ftp.
+
+	* mkfntab-c.m4, mkfntab-h.m4, mkfntexi.m4, mkoptab-c.m4,
+	mkoptab-h.m4, mkoptexi.m4: add copyright message.
+
+	* util.c (mkhoststr): handle NULL user.
+	
+2001-12-12  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c (main): new option -s (--sftp), use is_url().
+	* readrc.c (readrc): use is_url().
+	* url.c (parse_url): handle sftp URLs.
+	(is_url): new function.
+	
+	* mkmethods-c.m4, mkmethods-h.m4, methods.mt: add framework for
+	protocol method redirection.
+	* ftp.c: rename ftp protocol methods (change prefix to rftp_).
+	* sftp.c: new file.
+	
+	* configure.in: add --enable-sftp option.
+	
+	* aclocal.m4 (NIH_CHECK_DECL): correct comment for conifg.h.in
+
+	* ftp.h, ftp.c: move prototypes for ftp_hist and ftp_histf to
+	ftp.h.
+
+	* readdir.c (read_dir): make use of new dir functions.
+	* directory.c (dir_new, dir_add): new functions.
+	* directory.h (struct directory): add member alloc_len.
+
+2001-12-11  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: step version number to 0.11.2.
+
+	* options.op (user-anon-passwd): add missing comma.
+
+	* Makefile.am: reorder BUILT_SOURCES to avoid bootstrapping
+	problem.
+
+	* ftp.c (ftp_rmdir): new function.
+	* fn_basic.c (fn_rmdir): new function.
+	* fntable.fn (rmdir): new function.
+
+	* main.c: move version here from version.c
+	version.c: remove file
+
+	* ftp.c (ftp_list): don't update status bar.  Our callers will.
+
+2001-11-18  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* options.op: new option ``user_anon_passwd''.
+	* util.c (get_anon_passwd): handle new option.
+
+	* getdomainname.c: removed.
+
+2001-10-05  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_cat): rewrite error detection/reporting:
+	don't rely on ferror(), only consult errno in case of error.
+
+2001-09-15  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: stepped version to 0.11.1.
+
+2001-09-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* tty.c: conditionalize definition of ospeed on HAVE_DECL_OSPEED.
+	* getaddrinfo.c: adapt to new define name HAVE_DECL_H_ERRNO.
+	* configure.in (LIBS): use NIH_CHECK_DECL to check for h_errno in
+	netdb.h and ospeed in termcap.h.
+	* acinclude.m4 (NIH_CEHCK_DECL): new macro.
+
+2001-09-12  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: stepped version to 0.11.
+
+2001-08-17  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* tag.h: only declare tags in header, don't define it.
+	* tty.h: only declare tty_am in header, don't define it.
+
+	* sockets.c (sockaddr_ntop): choose implementation based on
+	availability of getnameinfo.
+	* configure.in: check for availability of getnameinfo.
+
+	* signals.c (sig_remember): reinstall signal handler.
+
+	* keys.c, keys.h: rename keyname to key_name to avoid conflict
+	with some termcap libraries.
+
+	* strdup.c: include <stdlib.h> for malloc() prototype.
+
+	* tty.c (tty_putp): buf is only used with tparam, so only define
+	it in that case.
+
+	* fn_tag.c (fn_tag): strcmp returns int, so compare with 0.
+
+	* tty.c: if we're using tparam replacement, declare it.
+
+	* tty.c (tty_put0): new function (was macro), adapt users.
+	* tty.h: remove prototype for fputchar().  make tty_put0() a
+	function and adapt using macros.
+
+	* tty.c: if present, include termcap.h.  Adapt for gratuitous
+	differences of termcap implementations.
+	* configure.in: check for termcap.h if using libtermcap.  Set one
+	of USE_TERMCAP, USE_CURSES, or USE_NCURSES to indicate which lib
+	we're using.
+
+2001-08-01  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_retr): set *sizep to -1 if we cannot extract a size
+	from the response.
+
+2001-07-31  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sockets.c (sopen): don't include '\n' in disp_status message.
+
+2001-07-30  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* list.c: include <string.h> for strlen(3) prototype.
+	* display.c: include <string.h> for strlen(3) prototype.
+	* fn_bind.c: include <string.h> for memcpy(3) prototype.
+
+	* options.op (stall-timeout): new option.
+
+	* main.c (main): if initial url is file, download before listing
+	directory.
+
+	* ftp.c (ftp_cat): check for sig_intr after calling
+	_ftp_update_transfer.
+	* ftp.c (_ftp_update_transfer): detect stalled connections, abort
+	(by setting sig_intr) after opt_stall seconds.
+
+2001-03-29  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_cat): new parameter (upload: direction of ASCII
+	conversion); changed callers.
+	(_ftp_host2ascii): new function.
+	(ftp_cat, _ftp_ascii2host): use two buffers in ASCII<->host
+	conversion.  chose ASCII conversion based on transfer direction.
+	(_ftp_transfer_stats_init, _ftp_transfer_stats_cleanup): new
+	functions.
+	(ftp_cat): use struct _ftp_transfer_stats.
+	(_ftp_update_transfer): rewritten to use struct _ftp_tranfer_stats
+	and to be correct.
+
+2001-03-20  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (_ftp_ascii2host): new function
+	(ftp_cat): use _ftp_ascii2host for ASCII mode transfers.  rewrite
+	transfer rate with non-blocking I/O and enable
+
+2000-12-15  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* mkbind.c (main): include <unistd.h>, include prg in args to
+	fprintf.
+
+2000-12-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* mkbind.c (main): create output in temp file and rename when
+	done.
+
+	* Makefile.am: sort various sections alphabetically.
+
+2000-12-13  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_tag.c (fn_saveurls): use mkhoststr to include user, password
+	and port in written URL.
+	* ftp.c (ftp_login): use mkhoststr.
+	* util.c (mkhoststr): new function.
+	* url.c: new file for URL handling: encoding, decoding, parsing.
+
+2000-12-11  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* util.c (get_anon_passwd): move to util.c from main.c.
+
+	* main.c (main): adapt to changes of ftp_connect and ftp_login.
+	* ftp.c (ftp_connect, ftp_login, ftp_reconnect): set and use
+	connection info variables.  NULL host or user means use old
+	values.  only ask user for password if server wants one.
+	
+	* ftp.c (ftp_host, ftp_prt, ftp_user, ftp_pass, ftp_anon):
+	functions to access connection info.
+
+	* ftp.c: prepended _ to connection info variables and made them
+	static.
+	
+	* fn_tag.c (fn_saveurls): make pluralization internationalization
+	friendly.
+
+	* Makefile.am, configure.in: remove getdomainname replacement.
+	main.c (get_anon_passwd): if the system doesn't provide
+	getdomainname, don't use it.
+
+	* Makefile.am, mkfntab-c.m4, mkfntab-h.m4: merge .proto files into
+	m4 files.
+
+	* readdir.c (read_dir): display progress.
+
+2000-12-10  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_select.c, fn_tag.c, ftp.c, tag.c: remove unnecessary casts of
+	basename to char *.
+
+	* tparam.c: include ANSI C headers unconditionally.
+
+	* fn_select.c, fn_tag.c, ftp.c, tag.c: sort headers, include
+	<libgen.h> or prototype for basename.
+	* configure.in: check for <libgen.h>.
+
+	* basename.c (basename): conform to XPG4.2.
+
+2000-12-09  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: stepped version to 0.10.
+
+2000-12-07  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* getaddrinfo.c (getaddrinfo): fix mapping of HOST_NOT_FOUND
+	error.
+	(gai_strerror): fix capitalization of error strings.
+
+	* getaddrinfo.c (getaddrinfo): fix bug (ai allocation at wrong
+	time) found by OSF/1 cc.
+
+	* ftp.c (ftp_cat): disable transfer rate display (since it is
+	unreliable).
+
+	* util.c (parse_url): recognize literal IPv6 addresses (RFC 2732).
+	
+	* fntable.fn, mkfntab-c.m4, mkfntab-h.m4, mkfntexi.m4,
+	mkoptab-c.m4, mkoptab-h.m4, mkoptexi.m4, options.op: change quotes
+	to << and >>.
+
+	* configure.in: include comment in AC_DEFINE, obsoleting
+	acconfig.h.
+	don't check for hstrerror.
+
+	* getaddrinfo.c: move replacement h_errno declarartion from
+	sockets.c here.
+	(getaddrinfo): map h_errno values to return values.
+
+2000-12-06  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* getaddrinfo.c (getaddrinfo): avoid host name lookup for raw ip
+	addresses, use inet_aton.
+
+	* sockets.c (sockaddr_ntop): omit scope id.
+	
+	* main.c (main): initialize ftp_host et al before getting initial
+	directory.
+	
+	* ftp.c, mkbind.c, readdir.c, sockets.c, status.c, tag.c, tty.c:
+	code cleanup for -Wall.
+	
+	* mkfntab-h.m4: emit correct prototypes for bindable functions.
+	
+	* functions.h: move aux_* prototypes from fn_select here
+	(aux_download used in main.c)
+	
+	* util.h: fix function name in prototype.
+	* getaddrinfo.c (getaddrinfo): don't free airet before it is
+	initialized.
+	* ftp.c (ftp_port): fix endianness bug.
+
+2000-12-05  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sockets.c (sockaddr_ntop): work around mising sa_len.
+	* configure.in: check for member sa_len of struct sockaddr.
+	* acinclude.m4 (NIH_HAVE_STRUCT_MEMBER): generic check for a
+	member of a struct.
+
+	* ftp.c (ftp_port): support for inet6.
+	(ftp_addr, ftp_gethostaddr): store address in struct
+	sockaddr_storage for protocol independence.
+
+	* sockets.c (sopen): new version with inet6 support.
+	(spassive): new version with inet6 support.
+	(sockaddr_ntop): new function.
+
+	* configure.in: check for struct sockaddr_storage.
+	* acinclude.m4 (NIH_HAVE_STRUCT): generic check for a struct.
+
+2000-12-04  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: check for presence of getaddrinfo.
+	* getaddrinfo.c: new replacement function.
+
+2000-11-26  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* readdir.c (read_dir): don't call pfunc[npfunc], as it doesn't
+	exist.
+	(parse_unix): recognize lines where there is no space between
+	permissions and number of links (as is the case on some servers on
+	files with more than 99 links).
+
+2000-10-19  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* configure.in: search for tgetent in libc (needed on Darvin).
+
+2000-10-16  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sockets.c (sopen): include hostname in connect error message.
+
+2000-06-28  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_accept): set close-on-exec flag, so piping works.
+
+2000-06-02  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* inet_aton.c (inet_aton): new function.
+	* configure.in: AC_REPLACE_FUNCS inet_aton.
+
+2000-06-01  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* sockets.c (sopen): use inet_aton to convert dotted quad
+	notation to address.
+
+2000-05-18  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_cat): correct transfer rate display when start != 0.
+
+2000-05-09  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_cat, _ftp_update_transfer): display transfer rate.
+
+	* signals.c (sig_remember): add sig_alarm.
+	* signals.h: declare signal counters extern, add sig_alarm.
+
+2000-05-05  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* tag.c (_tag_insert): realloc tags.line on overflow, correcting
+	next/prev pointers.
+
+2000-05-02  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* tag.c (tag_file): don't initialize dir if not given, simplified
+	strcmp.
+	(change_curdir): simplified strncmp.
+
+1999-05-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_reconnect): reset ftp_curmode to ' '.
+
+1999-04-09  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* readdir.c (parse_ms): new function.
+	(read_dir): loop over parser functions until accepted.  free line
+	here.
+	(parse_unix): reject line if strcspn(line, " ") != 10.  don't free
+	line.
+
+1999-02-08  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* added 1999 to copyright notices.
+	* readrc.c (readrc): remember password when part of alias url.
+
+1998-12-31  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_retr): place size from 150 response in *sizep (new
+	argument); changed callers.
+	* fn_select.c (aux_download): use size from ftp_retr if size
+	unknown.
+
+1998-12-16  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* util.c (argstostr): removed (args_to_string is
+	duplicate), changed callers.
+	(args_to_string): fixed bug which placed all args at beginning of
+	string.
+	
+1998-10-19  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* display.h, options.op, list.c (list_full),
+	status.c (opt_set_status): removed opt_emacs_status.
+
+	* status.c (status_do): handle short status line (space < 0).
+
+1998-10-17  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* bindings.desc: added mkdir, site.
+
+	* util.h, util.c (args_to_string): new function.
+
+	* ftp.h, ftp.c (ftp_site): new function.
+
+	* fntable.fn, fn_basic.c (fn_site): new function.
+
+1998-10-07  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_stor): accept response 125.
+
+1998-10-07  Wiz  <wiz@danbala.tuwien.ac.at>
+
+	* fn_select.c (fn_reload): reload logically current dir, not
+	physically current.
+
+	* bindings.desc, fn_basic.c (fn_showname): new option -l: show
+	link target.
+
+	* readdir.c (parse_unix): better parsing of symbolic links (Windows).
+
+	* display.c: removed include for termcap.h
+
+	* main.c (main): if startdir is file, download.
+
+1998-05-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fputchar.c (fputchar): return a value.
+
+	* main.c, tty.h, display.h, fn_tag.c, tag.h: cleanup for -Wall.
+
+1998-05-01  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* directory.c, tty.h: cleanup for -Wall.
+
+1998-04-30  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* signals.c: cleanup for -Wall
+
+	* util.c (parse_url, deurl, hexdigit): moved from main.c
+
+1998-04-25  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_basic.c (fn_mkdir): new function.
+
+	* ftp.c (ftp_mkdir): new funktion.
+
+1998-03-12  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_cwd, ftp_pwd): handle DOS servers with leading '\\'
+	in directory names.
+
+1998-03-02  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_cat): new parameter start.  callers changed.
+
+1998-02-27  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_retr): new parameter startp.  callers changed.
+
+	* fn_tag.c (fn_gettags): new option -c: restart.
+
+	* fn_select.c (aux_download): new parameter restart.  callers
+	changed.
+
+	* tty.c (tty_readkey): fixed handling of 8 bit chars (s now
+	unsigned char).
+
+1998-01-24  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_scroll.c (aux_scroll_page): fixed page scrolling when listing
+	is shorter than screen.
+
+1998-01-21  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c (parse_url): ignore trailing colon in host part.
+	(deurl): treat percent at end of string as regular char.
+
+1997-12-18  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fntable.h.proto: added newline to last line.
+
+1997-12-17  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_port, ftp_accept): support for passive mode.
+
+1997-12-03  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_tag.c (fn_tag): globbing tag/untag (-t, -u).
+
+	* main.c (print_usage): fixed shadow bug.
+
+1997-12-02  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_scroll.c (aux_scroll_line): handle `opt_wrap'.
+	(aux_scroll_page): handle `opt_wrap'.
+
+	* options.op (opt_wrap): new option.
+
+1997-11-24  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_list): dup path before storing in dir structure.
+	store path in structure.
+
+	* fn_scroll.c (aux_scroll_page): changed wrapping behavior.
+
+1997-11-21  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c: fixed typo.
+	(print_usage): changed calling convention; callers changed.
+
+1997-11-20  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_select.c (fn_reload): new function.
+
+	* tag.c (change_curdir): handle NULL `curdir'.
+
+	* ftp.c (ftp_cd): new argument `force'; changed callers.
+
+	* directory.c (get_dir): new argument `force'.
+
+1997-11-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_init): new function
+	(ftp_pwd): check for and handle DOS path names
+	(ftp_cwd): check for and handle DOS path names
+
+1997-11-03  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_pwd): set ftp_pcwd
+
+1997-10-29  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* directory.c (opt_set_sort): don't sort curdir if it's NULL.
+	(get_dir): moved call to dir_sort here.
+
+	* readdir.c (init_parse_time): new function.
+	(parse_time): init non-standard fields of struct tm from global
+	now.  Use global now instead of calling time(), gmtime() on each
+	invocation.
+
+	* hstrerror.c (hstrerror): renamed h_errlist to _h_errlist to
+	avoid conflict with libresolv on Solaris.  _h_errlist & _h_nerr
+	now static.
+
+1997-10-25  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_basic.c (fn_help): listings, more info on options.
+
+	* display.c (disp_open): reenter display if open failed.
+
+1997-10-24  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c: (main): moved version tail text to variable
+	version_tail; adapted to example in GNU standards 97/07/4.
+	(deurl): fixed double increment of s in single statement.
+
+	* fn_basic.c (fn_lcd): don't get cwd if rc_inrc.
+
+1997-10-23  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* fn_basic.c (fn_set): handle enum options.
+
+	* mkoptab-h.m4, mkoptab-c.m4, mkoptexi.m4: new option type enum.
+
+	* directory.c (dir_sort): new function.
+	(sort_unsorted, sort_name, sort_date, sort_name_r, sort_date_r):
+	new function.
+	(opt_set_sort): new function.
+
+	* readdir.c (read_dir): init new members pos and sorted.
+
+	* directory.h: new member pos in struct direntry; new member sort
+	in struct directory.
+
+	* readrc.c (readrc): treat lines beginning with `#' as comments.
+
+	* options.op: (sort) new option.
+
+1997-10-21  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* readdir.c (parse_unix): parse modification time.
+	(parse_time): new function.
+	
+	* directory.h: new member mtime in struct direntry.
+
+	* fn_select.c (aux_download): ftp_close(fout), fclose(fin) -- not
+	the other way around.
+	(aux_upload): new function.
+	(fn_put): new function.
+
+	* ftp.c (ftp_stor): new function.
+
+1997-10-17  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* ftp.c (ftp_close): return if not connected
+	(ftp_resp): return -1 if not connected
+
+	* sockets.c (sopen): write error in message area when display is
+	active.
+
+	* display.c: new variable `disp_active'.
+
+1997-10-14  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* directory.c (get_dir): reuse cache entry only if ftp_list
+	succeeded.
+
+1997-10-08  Dieter Baron  <dillo@danbala.tuwien.ac.at>
+
+	* main.c (main): --version and --help: conform to GNU standards.
+
+	* version.c (version): conform to GNU standards.
+
+	* main.c (get_annon_passwd): Handle domainname ``(none)'',
+	check for beginning dot, existing user, dot in hostname. 
+
+	* ftp.c (ftp_login): Set status.remote.path to NULL after freeing.
+
+	* status.c (status_do): Print space in "host... ...path".
+

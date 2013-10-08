@@ -1,0 +1,111 @@
+dnl -*- text -*-
+dnl
+dnl  $NiH: options.op,v 1.22 2001/12/23 03:34:02 dillo Exp $
+dnl
+dnl  options.op -- definition and documentation for user settable options
+dnl  Copyright (C) 1996-2002 Dieter Baron
+dnl
+dnl  This file is part of cftp, a fullscreen ftp client
+dnl  The author can be contacted at <dillo@giga.or.at>
+dnl
+dnl  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+  3. The name of the author may not be used to endorse or promote
+     products derived from this software without specific prior
+     written permission.
+ 
+  THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS
+  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+rcsid(<<$NiH: options.op,v 1.22 2001/12/23 03:34:02 dillo Exp $>>)
+
+dnl option(name, short, variable, function, type, default, help, doku)
+
+option(mode, mo, opt_mode, opts_mode, c, 'i', ,
+ <<transfer mode for downloads>>,
+ <<Transfer mode used for downloads; set to `i' for image (binary), `a'
+for ascii.>>)
+
+option(passive, pv, opt_pasv, NULL, b, 0, ,
+ <<use passive mode to establish data connections>>,
+ <<>>)
+
+option(stall-timeout, st, opt_stall, NULL, i, 900, ,
+ <<timeout for stalled connections (in seconds)>>,
+ <<If no data arrives on the data connection for this many seconds,
+consider the transfer stalled and abort.>>)
+
+option(tag-char, tc, opt_tagchar, NULL, c, '>', ,
+ <<char to mark tagged files with>>,
+ <<Tagged files in the current directory are marked with this character
+in the first column.>>)
+
+option(hist-size, hs, ftp_hist_size, ftp_set_hist_size, i, 200, ,
+ <<size of ftp command/response history>>,
+ <<Specifies how many lines of ftp commands and responses exchanged
+with the ftp server to remember.  Remembered lines can be displayed
+with @code{response}.  @xref{response}>>)
+
+option(beep, bp, opt_beep, NULL, b, 0, ,
+ <<beep after some commands>>,
+ <<Tells cftp to beep after completing some commands, e. g. downloading
+tagged files.>>)
+
+option(scroll-limit, sl, opt_scrlimit, NULL, i, 0, ,
+ <<minimum overlap for scrolling lists>>,
+ <<Don't scroll lists if overlap of old and new positions is less than
+@code{scroll-limit} lines; make a full redraw instead.>>)
+
+option(pager, pg, opt_pager, NULL, s, "more", ,
+ <<pager used to view files>>,
+ <<Pager used to view files.  Defaults to the value of the environment
+variable @code{$PAGER} if set, to @code{more} otherwise.>>)
+
+values(sort, <<"none", "name", "date", "name-r", "date-r">>)
+
+option(sort, so, opt_sort, opt_set_sort, e, 1, sort,
+ <<sort criterium for directory listings>>,
+ <<Set how to sort directory listings; possible values are
+@table @code
+@item none
+list as returned by ftp server
+@item name
+alphabetically by file name
+@item date
+chronologically by modification time, newest first
+@item name-r
+alphabetically by file name, in reverse order
+@item date-r
+chronologically by modification time, oldest first
+@end table
+>>)
+
+option(wrap, wa, opt_wrap, NULL, b, 1, ,
+ <<wrap around bottom/top when scrolling>>,
+ <<If set, scrolling wraps around bottom/top when scrolling.>>)
+
+option(user-anon-passwd, ua, opt_user_anon_passwd, NULL, b, 0, ,
+ <<whether to send user name as anonymous password>>,
+ <<If set, the username (and, if available, FQDN) is sent as password
+for anonymous.  If unset, ``anonymous@'' is sent instead.  Default is
+unset.>>)
+
+endall

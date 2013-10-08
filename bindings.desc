@@ -1,0 +1,69 @@
+bind		^l	redraw -c
+bind		V	version
+bind		q	exit
+bind		H	help
+bind		c	lcd
+bind		!	shell
+bind		:	colon
+bind		B	bind
+bind		m	response
+bind		n	show-name
+bind		N	show-name -u
+bind		L	show-name -l
+bind		r	reconnect
+bind		S	site
+
+bind		a	set mode a
+bind		i	set mode i
+
+bind		0	prefix 0
+bind		1	prefix 1
+bind		2	prefix 2
+bind		3	prefix 3
+bind		4	prefix 4
+bind		5	prefix 5
+bind		6	prefix 6
+bind		7	prefix 7
+bind		8	prefix 8
+bind		9	prefix 9
+
+bind		T	state <tag>
+bind		R	state <remote>
+
+bind	<remote> ^j	enter/get
+bind	<remote> ^m	enter/get
+bind	<remote> t	tag
+bind	<remote> ^t	tag -t
+bind	<remote> D	get-tags
+bind	<remote> ^b	leave
+bind	<remote> ^f	enter/get
+bind	<remote> h	leave
+bind	<remote> l	enter/get
+bind	<remote> left	leave
+bind	<remote> right	enter/get
+bind	<remote> v	view
+bind	<remote> d	get
+bind	<remote> |	pipe :
+bind	<remote> p	put
+bind	<remote> M	mkdir
+
+bind	<tag>	h	leave-tag
+bind	<tag>	q	leave-tag
+bind	<tag>	^b	leave-tag
+bind	<tag>	left	leave-tag
+
+bind		^p	up
+bind		^n	down
+bind		j	down
+bind		k	up
+bind		up	up
+bind		down	down
+bind		spc 	page-down
+bind		b	page-up
+bind		pgdown	page-down
+bind		pgup	page-up
+bind		G	goto
+bind		^s	isearch
+bind		^r	isearch -r
+
+bind		g	cd

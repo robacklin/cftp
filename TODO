@@ -1,0 +1,50 @@
+! non-GPL getopt_long and tparam replacment
+! time out in ftp_gets
++ option -i: don't load listing before download
+! sftp: lost connection during download causes tight loop
+! tagging segfaults on linux
+! sorting by data segfaults on empty directories
+! abort doesn't work
+! stop when local disk is full during download
+! core dump when sorting empty directory by date
+! core dump when scrolling on NetBSD-6
++ option: maximum transfer rate
++ display transfer rate at end of transfer
++ fix buffer overflows
++ sftp: ^c kills ssh subprocess (how to avoid?!)
++ test ftp_cat error cases
++ recursive get
+- move ftp_gets to util.c and rename
+- move history from ftp.c
+- add function comments
+- build failure on OSF 5.1 (struct addrinfo declared)
+- ctrl-s ctrl-s: re-use last search string
+
+* save current url as alias to .cftprc
+* ftp.univie.ac.at: abort hoses connection state
+* sftp options: ssh command & flags, sftp server filename
+* declare replacement functions (to avoid warnings)
+* find bug when viewing or piping rfc-index.txt
+* host specific rc file sections
+* run time disabling of IPv6
+* use mkhoststr in show-url
+* rewrite parse_url
+* fix REFERENCES and include in dist
+* fix -Wall warnings (option and function array, termcap functions, getopt.c)
+* fix compile on HPUX (struct sockaddr)
+* get-tags: recoginze global failure (e. g. connection lost) and abort
+* feature recognition and handling
+* complete getaddrinfo replacement
+* check warnings on NextSTEP
+* note that building on NextSTEP requires -posix in CFLAGS and LDFLAGS
+* fix unix directory parsing (ftp://ftp.deva.net/)
+* rethink directory format auto detection logic
+* improve check wheter lib{socket,nsl,resolv} are needed
+* ^[[O triggers bindings for left and O
+* ftp_retr: check 150 format on different servers
+* handle 8 bit keys
+* <local> mode
+* decent documentation
+* segfault while tagging on GNU/Linux
+* try again if connect/login fails
+* cwd: if path does not exist and ends with `/', it is tried twice
